@@ -44,3 +44,36 @@ footer {
     width: 100%;
     bottom: 0;
 }
+
+#carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 2s ease-in-out;
+}
+
+.slide {
+    flex: 0 0 33.33%;
+    padding: 10px;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    float: right;
+    margin-left: 20px;
+}
