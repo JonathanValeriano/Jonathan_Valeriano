@@ -1,14 +1,29 @@
+:root {
+    --color-primary: #333;
+    --color-secondary: #f4f4f4;
+    --color-white: #fff;
+    --color-link: #007BFF;
+    --color-link-hover: #0056b3;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+}
+
+/* Reset básico */
 body {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: var(--color-secondary);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
+/* Header */
 header {
-    background: #333;
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-white);
     padding: 20px 0;
     text-align: center;
 }
@@ -16,68 +31,113 @@ header {
 nav ul {
     list-style: none;
     padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 nav ul li a {
-    color: #fff;
+    color: var(--color-white);
     text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+nav ul li a:hover {
+    color: var(--color-link-hover);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 20px;
 }
 
 section {
     padding: 20px;
     margin: 20px 0;
-    background: #fff;
-    border-radius: 5px;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Footer */
 footer {
     text-align: center;
     padding: 10px 0;
-    background: #333;
-    color: #fff;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    background: var(--color-primary);
+    color: var(--color-white);
+    margin-top: auto;
 }
 
+/* Carousel */
 #carousel {
     display: flex;
     overflow: hidden;
     width: 100%;
+    position: relative;
 }
 
+/* Estilos para o carrossel */
 .carousel-container {
     display: flex;
-    transition: transform 3s ease-in-out;
+    transition: transform 0.5s ease-in-out;
 }
 
 .slide {
-    flex: 0 0 33.33%;
-    padding: 10px;
+    min-width: 33.33%; /* Cada slide ocupa 1/3 do espaço */
+    box-sizing: border-box;
+    padding: 0 8px; /* Espaçamento entre os slides */
 }
 
 .slide img {
     width: 100%;
     height: auto;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     cursor: pointer;
+    transition: transform var(--transition-speed);
 }
 
+.slide img:hover {
+    transform: scale(1.05);
+}
+
+/* Controles do Carrossel */
+.carousel-control {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-control:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-control.prev {
+    left: 10px;
+}
+
+.carousel-control.next {
+    right: 10px;
+}
+
+/* Profile Picture */
 .profile-pic {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    float: right;
     margin-left: 20px;
+    float: right;
 }
-/* Esconde a barra de scroll */
+
+/* Utilidades */
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
@@ -87,7 +147,26 @@ footer {
     scrollbar-width: none; /* Firefox */
 }
 
-/* Transição suave para o carrossel */
-#carousel {
-    scroll-behavior: smooth;
+/* Responsividade */
+@media (max-width: 768px) {
+    .slide {
+        flex: 0 0 50%;
+    }
+
+    .profile-pic {
+        float: none;
+        display: block;
+        margin: 0 auto 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slide {
+        flex: 0 0 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
