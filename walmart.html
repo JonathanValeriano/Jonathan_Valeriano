@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerveja e Fraldas: A História do Walmart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Contêiner principal -->
+    <div id="root">
+        <!-- Cabeçalho -->
+        <header class="bg-gray-800 text-white text-center py-10">
+            <h1 class="text-2xl font-bold mb-6">Bem-vindo ao meu portfólio de Business Intelligence!</h1>
+            <nav class="mt-8">
+                <ul class="flex flex-wrap justify-center space-x-4">
+                    <li><a href="index.html#sobre" class="btn">Sobre</a></li>
+                    <li><a href="index.html#Artigos" class="btn">Artigos</a></li>
+                    <li><a href="index.html#dashboards" class="btn">Dashboards</a></li>
+                    <li><a href="index.html#contato" class="btn">Contato</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow">
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 text-center">Cerveja e Fraldas: A História do Walmart</h1>
+            
+            <!-- Carrossel de Slides -->
+            <div class="relative w-full overflow-hidden">
+                <div class="carousel-container">
+                    <!-- Slide 1: O Contexto -->
+                    <div class="slide">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">O Contexto</h2>
+                        <p class="text-xl text-gray-700">
+                            O Walmart, uma das maiores redes varejistas do mundo, começou a investir pesadamente em tecnologia e análise de dados para melhorar sua eficiência operacional e entender o comportamento dos consumidores. Eles coletavam dados detalhados sobre as compras dos clientes, incluindo o que era comprado, quando e em quais combinações.
+                        </p>
+                        <img src="img/walmart/1.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                    </div>
+
+                    <!-- Slide 2: A Descoberta -->
+                    <div class="slide">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">A Descoberta</h2>
+                        <p class="text-xl text-gray-700">
+                            Ao analisar os dados de transações, os analistas do Walmart notaram um padrão curioso: em determinados horários, principalmente às sextas-feiras à noite, havia uma correlação significativa entre a venda de fraldas e cervejas. Ou seja, muitos clientes que compravam fraldas também compravam cervejas no mesmo carrinho de compras.
+                        </p>
+                        <img src="img/walmart/2.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                    </div>
+
+                    <!-- Slide 3: A Explicação -->
+                    <div class="slide">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">A Explicação</h2>
+                        <p class="text-xl text-gray-700">
+                            A análise mais aprofundada revelou que esse padrão estava relacionado ao comportamento de pais jovens. A hipótese era que, ao final da semana, esses pais estocavam fraldas para os bebês e, ao mesmo tempo, compravam cervejas para aproveitar o fim de semana em casa. Essa descoberta mostrou uma conexão inesperada entre dois produtos aparentemente não relacionados.
+                        </p>
+                        <img src="img/walmart/3.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                    </div>
+
+                    <!-- Slide 4: A Transformação -->
+                    <div class="slide">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">A Transformação</h2>
+                        <p class="text-xl text-gray-700">
+                            Com base nesse insight, o Walmart decidiu reposicionar esses produtos nas lojas. Eles começaram a colocar fraldas e cervejas mais próximas uma da outra, especialmente nas noites de sexta-feira. Essa mudança estratégica teve um impacto significativo:
+                        </p>
+                        <img src="img/walmart/4.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                        <ul class="list-disc list-inside text-xl text-gray-700 mt-4">
+                            <li><strong>Aumento das vendas:</strong> A proximidade dos produtos facilitou a compra conjunta, aumentando as vendas de ambos.</li>
+                            <li><strong>Melhoria na experiência do cliente:</strong> Os clientes perceberam que o Walmart entendia suas necessidades, o que fortaleceu a fidelidade à marca.</li>
+                            <li><strong>Otimização do estoque:</strong> A empresa passou a gerenciar melhor o estoque desses produtos, garantindo que estivessem disponíveis nos horários de pico de demanda.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Slide 5: O Legado -->
+                    <div class="slide">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">O Legado</h2>
+                        <p class="text-xl text-gray-700">
+                            Essa descoberta não apenas beneficiou o Walmart, mas também se tornou um caso emblemático no mundo dos negócios, destacando a importância da análise de dados para identificar padrões ocultos e tomar decisões estratégicas. Além disso, popularizou o conceito de "análise de cesta de compras" (market basket analysis), uma técnica usada para entender as relações entre produtos comprados juntos.
+                        </p>
+                        <p class="text-xl text-gray-700 mt-4">
+                            A história da cerveja e das fraldas no Walmart ilustra como dados, quando bem analisados, podem revelar oportunidades inesperadas e impulsionar a inovação no varejo.
+                        </p>
+                        <img src="img/walmart/5.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                    </div>
+                </div>
+
+                <!-- Botões de Controle -->
+                <button class="carousel-control prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10094;</button>
+                <button class="carousel-control next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10095;</button>
+            </div>
+
+            <!-- Botão para Voltar -->
+            <div class="text-center mt-8">
+                <a href="index.html"
+                    class="mt-6 inline-block text-white bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                    Voltar para o portfólio
+                </a>
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
+            <p>&copy; 2025 Jonathan Valeriano. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Script do Carrossel -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const carouselContainer = document.querySelector('.carousel-container');
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            const prevButton = document.querySelector('.prev');
+            const nextButton = document.querySelector('.next');
+            let index = 0;
+
+            // Atualiza a posição do carrossel
+            function updateCarousel() {
+                carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+            }
+
+            // Navega para o próximo slide
+            function nextSlide() {
+                index = (index + 1) % totalSlides;
+                updateCarousel();
+            }
+
+            // Navega para o slide anterior
+            function prevSlide() {
+                index = (index - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+
+            // Adiciona eventos aos botões
+            prevButton.addEventListener('click', prevSlide);
+            nextButton.addEventListener('click', nextSlide);
+
+            // Autoplay (opcional)
+            let autoplayInterval = setInterval(nextSlide, 5000);
+
+            // Pausa o autoplay ao passar o mouse
+            carouselContainer.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+            carouselContainer.addEventListener('mouseleave', () => autoplayInterval = setInterval(nextSlide, 5000));
+        });
+    </script>
+</body>
+
+</html>

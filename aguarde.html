@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aguarde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            /* Garante que o html e o body ocupem 100% da altura da tela */
+            margin: 0;
+        }
+
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            /* Garante que o contêiner principal ocupe pelo menos 100% da altura da tela */
+        }
+
+        main {
+            flex: 1;
+            /* Faz o conteúdo principal ocupar o espaço restante */
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Contêiner principal -->
+    <div id="root">
+        <!-- Cabeçalho -->
+        <header class="bg-gray-800 text-white text-center py-10">
+            <h1 class="text-2xl font-bold mb-6">Bem-vindo ao meu portfólio de Business Intelligence!</h1>
+            <nav class="mt-8">
+                <ul class="flex flex-wrap justify-center space-x-4">
+                    <li><a href="index.html#sobre"
+                            class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-3 px-6 transition duration-300 shadow-lg">Sobre</a>
+                    </li>
+                    <li><a href="index.html#Artigos"
+                            class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-3 px-6 transition duration-300 shadow-lg">Artigos</a>
+                    </li>
+                    <li><a href="index.html#dashboards"
+                            class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-3 px-6 transition duration-300 shadow-lg">Dashboards</a>
+                    </li>
+                    <li><a href="index.html#contato"
+                            class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-3 px-6 transition duration-300 shadow-lg">Contato</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Aguarde!</h1>
+                <p class="text-xl text-gray-600">Estamos preparando uma nova e incrível experiência em dados para você!</p>
+                <a href="index.html"
+                    class="mt-6 inline-block text-white bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                    Voltar para o portfólio
+                </a>
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
+            <p>&copy; 2025 Jonathan Valeriano. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
