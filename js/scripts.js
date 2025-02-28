@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
             index++;
         }
         updateCarousel();
-        resetAutoplay(); // Reinicia o timer de inatividade
     }
 
     // Navega para o conjunto anterior de slides
@@ -45,35 +44,46 @@ document.addEventListener('DOMContentLoaded', () => {
             index--;
         }
         updateCarousel();
-        resetAutoplay(); // Reinicia o timer de inatividade
+    }
+
+    // Inicia o autoplay
+    function startAutoplay() {
+        autoplayInterval = setInterval(nextSlide, 4000);
+    }
+
+    // Pausa o autoplay
+    function pauseAutoplay() {
+        clearInterval(autoplayInterval);
     }
 
     // Reinicia o autoplay após 3 segundos de inatividade
     function resetAutoplay() {
-        clearInterval(autoplayInterval);
-        clearTimeout(resetTimer);
+        pauseAutoplay(); // Pausa o autoplay atual
+        clearTimeout(resetTimer); // Limpa o timer anterior (se houver)
         resetTimer = setTimeout(() => {
-            autoplayInterval = setInterval(nextSlide, 2000);
-        }, 3000);
+            startAutoplay(); // Reinicia o autoplay após 3 segundos
+        }, 2000);
     }
 
     // Adiciona eventos aos botões
-    prevButton.addEventListener('click', prevSlide);
-    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', () => {
+        prevSlide();
+        resetAutoplay(); // Reinicia o timer de inatividade
+    });
 
-    // Inicia o autoplay
-    autoplayInterval = setInterval(nextSlide, 2000);
+    nextButton.addEventListener('click', () => {
+        nextSlide();
+        resetAutoplay(); // Reinicia o timer de inatividade
+    });
 
     // Pausa o autoplay ao passar o mouse
-    carouselContainer.addEventListener('mouseenter', () => {
-        clearInterval(autoplayInterval);
-        clearTimeout(resetTimer);
-    });
+    carouselContainer.addEventListener('mouseenter', pauseAutoplay);
 
     // Retoma o autoplay ao remover o mouse (se não houver interação recente)
     carouselContainer.addEventListener('mouseleave', () => {
-        if (!resetTimer) {
-            autoplayInterval = setInterval(nextSlide, 2000);
-        }
+        resetAutoplay(); // Reinicia o timer de inatividade
     });
+
+    // Inicia o autoplay pela primeira vez
+    startAutoplay();
 });
