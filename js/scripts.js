@@ -1,89 +1,88 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const carouselContainer = document.querySelector('.carousel-container');
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length / 2; // Considera apenas os slides originais
-    const prevButton = document.querySelector('.prev');
-    const nextButton = document.querySelector('.next');
-    let index = 0;
-    let autoplayInterval;
-    let resetTimer;
-
-    if (!carouselContainer || !prevButton || !nextButton || totalSlides === 0) {
-        console.error("Elementos do carrossel não encontrados!");
-        return;
-    }
-
-    // Atualiza a posição do carrossel
-    function updateCarousel() {
-        carouselContainer.style.transform = `translateX(-${index * 33.33}%)`;
-    }
-
-    // Navega para o próximo conjunto de slides
-    function nextSlide() {
-        index++;
-        if (index >= totalSlides) {
-            carouselContainer.style.transition = 'none';
-            index = 0;
-            updateCarousel();
-            void carouselContainer.offsetWidth;
-            carouselContainer.style.transition = 'transform 0.5s ease-in-out';
-            index++;
+    const carousels = [
+        {
+            container: document.querySelector('.carousel-container'),
+            slides: document.querySelectorAll('.slide'),
+            prevButton: document.querySelector('.prev'),
+            nextButton: document.querySelector('.next'),
+            totalSlides: document.querySelectorAll('.slide').length / 2,
+        },
+        {
+            container: document.querySelector('#dashboards .carousel-container'),
+            slides: document.querySelectorAll('#dashboards .slide'),
+            prevButton: document.querySelector('#dashboards .prev'),
+            nextButton: document.querySelector('#dashboards .next'),
+            indicators: document.querySelectorAll('#dashboards .carousel-indicators .indicator'),
+            totalSlides: document.querySelectorAll('#dashboards .slide').length / 2,
         }
-        updateCarousel();
-    }
+    ];
 
-    // Navega para o conjunto anterior de slides
-    function prevSlide() {
-        index--;
-        if (index < 0) {
-            carouselContainer.style.transition = 'none';
-            index = totalSlides - 1;
-            updateCarousel();
-            void carouselContainer.offsetWidth;
-            carouselContainer.style.transition = 'transform 0.5s ease-in-out';
-            index--;
+    carousels.forEach(carousel => initCarousel(carousel));
+
+    function initCarousel({ container, slides, prevButton, nextButton, indicators, totalSlides }) {
+        if (!container || !prevButton || !nextButton || totalSlides === 0) {
+            console.error("Elementos do carrossel não encontrados!");
+            return;
         }
-        updateCarousel();
+
+        let index = 0;
+        let autoplayInterval;
+        let resetTimer;
+
+        const updateCarousel = () => {
+            const slideWidth = 100 / (slides.length / totalSlides);
+            container.style.transform = `translateX(-${index * slideWidth}%)`;
+            indicators?.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+        };
+
+        const nextSlide = () => {
+            index = (index + 1) % totalSlides;
+            updateCarousel();
+        };
+
+        const prevSlide = () => {
+            index = (index - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        };
+
+        const goToSlide = (slideIndex) => {
+            index = slideIndex;
+            updateCarousel();
+        };
+
+        const startAutoplay = (interval = 5000) => {
+            autoplayInterval = setInterval(nextSlide, interval);
+        };
+
+        const pauseAutoplay = () => {
+            clearInterval(autoplayInterval);
+        };
+
+        const resetAutoplay = (delay = 2000) => {
+            pauseAutoplay();
+            clearTimeout(resetTimer);
+            resetTimer = setTimeout(() => startAutoplay(), delay);
+        };
+
+        prevButton.addEventListener('click', () => {
+            prevSlide();
+            resetAutoplay();
+        });
+
+        nextButton.addEventListener('click', () => {
+            nextSlide();
+            resetAutoplay();
+        });
+
+        indicators?.forEach((indicator, i) => {
+            indicator.addEventListener('click', () => goToSlide(i));
+        });
+
+        container.addEventListener('mouseenter', pauseAutoplay);
+        container.addEventListener('mouseleave', resetAutoplay);
+
+        startAutoplay(totalSlides === 3 ? 5000 : 2000);
     }
-
-    // Inicia o autoplay
-    function startAutoplay() {
-        autoplayInterval = setInterval(nextSlide, 2000);
-    }
-
-    // Pausa o autoplay
-    function pauseAutoplay() {
-        clearInterval(autoplayInterval);
-    }
-
-    // Reinicia o autoplay após 3 segundos de inatividade
-    function resetAutoplay() {
-        pauseAutoplay(); // Pausa o autoplay atual
-        clearTimeout(resetTimer); // Limpa o timer anterior (se houver)
-        resetTimer = setTimeout(() => {
-            startAutoplay(); // Reinicia o autoplay após 3 segundos
-        }, 2000);
-    }
-
-    // Adiciona eventos aos botões
-    prevButton.addEventListener('click', () => {
-        prevSlide();
-        resetAutoplay(); // Reinicia o timer de inatividade
-    });
-
-    nextButton.addEventListener('click', () => {
-        nextSlide();
-        resetAutoplay(); // Reinicia o timer de inatividade
-    });
-
-    // Pausa o autoplay ao passar o mouse
-    carouselContainer.addEventListener('mouseenter', pauseAutoplay);
-
-    // Retoma o autoplay ao remover o mouse (se não houver interação recente)
-    carouselContainer.addEventListener('mouseleave', () => {
-        resetAutoplay(); // Reinicia o timer de inatividade
-    });
-
-    // Inicia o autoplay pela primeira vez
-    startAutoplay();
 });

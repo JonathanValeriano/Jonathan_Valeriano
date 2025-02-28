@@ -29,6 +29,29 @@
             padding: 20px;
             text-align: center;
         }
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .carousel-indicators .indicator {
+            width: 10px;
+            height: 10px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .carousel-indicators .indicator.active {
+            background-color: #4a5568; /* Cor do indicador ativo */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -41,22 +64,22 @@
             <nav class="mt-8">
                 <ul class="flex flex-col sm:flex-row flex-wrap justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <li>
-                        <a href="#sobre" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        <a href="index.html#Sobre" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
                             Sobre
                         </a>
                     </li>
                     <li>
-                        <a href="#Artigos" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        <a href="index.html#Artigos" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
                             Artigos
                         </a>
                     </li>
                     <li>
-                        <a href="#dashboards" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        <a href="index.html#dashboards" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
                             Dashboards
                         </a>
                     </li>
                     <li>
-                        <a href="#contato" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        <a href="index.html#contato" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
                             Contato
                         </a>
                     </li>
@@ -75,7 +98,7 @@
                     <div class="slide">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">O Contexto</h2>
                         <p class="text-xl text-gray-700">
-                            O Walmart, uma das maiores redes varejistas do mundo, começou a investir pesadamente em tecnologia e análise de dados para melhorar sua eficiência operacional e entender o comportamento dos consumidores. Eles coletavam dados detalhados sobre as compras dos clientes, incluindo o que era comprado, quando e em quais combinações.
+                            Imagine uma época em que as lojas não sabiam muito sobre o que os clientes realmente queriam. Agora, pense no Walmart, uma gigante do varejo, que decidiu mergulhar de cabeça no mundo dos dados para descobrir segredos escondidos nas compras das pessoas. E foi assim que eles encontraram uma combinação tão inusitada quanto genial: cerveja e fraldas. Sim, você leu certo!
                         </p>
                         <img src="img/walmart/1.png" alt="Imagem 1" class="mt-4 w-full h-auto">
                     </div>
@@ -84,18 +107,18 @@
                     <div class="slide">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">A Descoberta</h2>
                         <p class="text-xl text-gray-700">
-                            Ao analisar os dados de transações, os analistas do Walmart notaram um padrão curioso: em determinados horários, principalmente às sextas-feiras à noite, havia uma correlação significativa entre a venda de fraldas e cervejas. Ou seja, muitos clientes que compravam fraldas também compravam cervejas no mesmo carrinho de compras.
+                            Essa história é um exemplo incrível de como a análise de dados pode revelar conexões surpreendentes e transformar a maneira como as empresas entendem seus clientes. E aí, curioso para saber como isso aconteceu? Então vem comigo que eu vou te contar!
                         </p>
-                        <img src="img/walmart/2.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                        <img src="img/walmart/2.png" alt="Imagem 2" class="mt-4 w-full h-auto">
                     </div>
 
                     <!-- Slide 3: A Explicação -->
                     <div class="slide">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">A Explicação</h2>
                         <p class="text-xl text-gray-700">
-                            A análise mais aprofundada revelou que esse padrão estava relacionado ao comportamento de pais jovens. A hipótese era que, ao final da semana, esses pais estocavam fraldas para os bebês e, ao mesmo tempo, compravam cervejas para aproveitar o fim de semana em casa. Essa descoberta mostrou uma conexão inesperada entre dois produtos aparentemente não relacionados.
+                            Pais jovens compravam fraldas para os bebês e cervejas para o fim de semana, revelando uma ligação inesperada entre os dois produtos. Mas por que isso acontecia? A explicação está na rotina desses clientes: após um longo dia de trabalho, eles passavam no Walmart para comprar fraldas e, ao perceberem que estavam sem cerveja, aproveitavam para levar também.
                         </p>
-                        <img src="img/walmart/3.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                        <img src="img/walmart/3.png" alt="Imagem 3" class="mt-4 w-full h-auto">
                     </div>
 
                     <!-- Slide 4: A Transformação -->
@@ -104,12 +127,7 @@
                         <p class="text-xl text-gray-700">
                             Com base nesse insight, o Walmart decidiu reposicionar esses produtos nas lojas. Eles começaram a colocar fraldas e cervejas mais próximas uma da outra, especialmente nas noites de sexta-feira. Essa mudança estratégica teve um impacto significativo:
                         </p>
-                        <img src="img/walmart/4.png" alt="Imagem 1" class="mt-4 w-full h-auto">
-                        <ul class="list-disc list-inside text-xl text-gray-700 mt-4">
-                            <li><strong>Aumento das vendas:</strong> A proximidade dos produtos facilitou a compra conjunta, aumentando as vendas de ambos.</li>
-                            <li><strong>Melhoria na experiência do cliente:</strong> Os clientes perceberam que o Walmart entendia suas necessidades, o que fortaleceu a fidelidade à marca.</li>
-                            <li><strong>Otimização do estoque:</strong> A empresa passou a gerenciar melhor o estoque desses produtos, garantindo que estivessem disponíveis nos horários de pico de demanda.</li>
-                        </ul>
+                        <img src="img/walmart/4.png" alt="Imagem 4" class="mt-4 w-full h-auto">
                     </div>
 
                     <!-- Slide 5: O Legado -->
@@ -118,16 +136,32 @@
                         <p class="text-xl text-gray-700">
                             Essa descoberta não apenas beneficiou o Walmart, mas também se tornou um caso emblemático no mundo dos negócios, destacando a importância da análise de dados para identificar padrões ocultos e tomar decisões estratégicas. Além disso, popularizou o conceito de "análise de cesta de compras" (market basket analysis), uma técnica usada para entender as relações entre produtos comprados juntos.
                         </p>
-                        <p class="text-xl text-gray-700 mt-4">
-                            A história da cerveja e das fraldas no Walmart ilustra como dados, quando bem analisados, podem revelar oportunidades inesperadas e impulsionar a inovação no varejo.
+                        <img src="img/walmart/5.png" alt="Imagem 5" class="mt-4 w-full h-auto">
+                    </div>
+
+                    <!-- Slide 6: Moral da história -->
+                    <div class="slide">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Moral da história: </h2>
+                        <p class="text-xl text-gray-700">
+                            Embora a análise de dados possa parecer complexa, os insights que ela proporcionam são extremamente valiosos e, por vezes, surpreendentemente curiosos. E você, já parou para pensar no que os dados podem revelar sobre o seu negócio? Quem sabe você não descobre a próxima combinação inusitada de cerveja e fraldas!
                         </p>
-                        <img src="img/walmart/5.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                        <img src="img/walmart/6.png" alt="Imagem 6" class="mt-4 w-full h-auto">
                     </div>
                 </div>
 
                 <!-- Botões de Controle -->
                 <button class="carousel-control prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10094;</button>
                 <button class="carousel-control next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10095;</button>
+            </div>
+
+            <!-- Indicadores de Slide -->
+            <div class="carousel-indicators">
+                <div class="indicator active" data-slide="0"></div>
+                <div class="indicator" data-slide="1"></div>
+                <div class="indicator" data-slide="2"></div>
+                <div class="indicator" data-slide="3"></div>
+                <div class="indicator" data-slide="4"></div>
+                <div class="indicator" data-slide="5"></div>
             </div>
 
             <!-- Botão para Voltar -->
@@ -150,25 +184,35 @@
         document.addEventListener('DOMContentLoaded', () => {
             const carouselContainer = document.querySelector('.carousel-container');
             const slides = document.querySelectorAll('.slide');
-            const totalSlides = slides.length;
+            const indicators = document.querySelectorAll('.carousel-indicators .indicator');
             const prevButton = document.querySelector('.prev');
             const nextButton = document.querySelector('.next');
             let index = 0;
+            let autoplayInterval;
 
-            // Atualiza a posição do carrossel
+            // Atualiza a posição do carrossel e os indicadores
             function updateCarousel() {
                 carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+                indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === index);
+                });
             }
 
             // Navega para o próximo slide
             function nextSlide() {
-                index = (index + 1) % totalSlides;
+                index = (index + 1) % slides.length;
                 updateCarousel();
             }
 
             // Navega para o slide anterior
             function prevSlide() {
-                index = (index - 1 + totalSlides) % totalSlides;
+                index = (index - 1 + slides.length) % slides.length;
+                updateCarousel();
+            }
+
+            // Navega para um slide específico
+            function goToSlide(slideIndex) {
+                index = slideIndex;
                 updateCarousel();
             }
 
@@ -176,12 +220,22 @@
             prevButton.addEventListener('click', prevSlide);
             nextButton.addEventListener('click', nextSlide);
 
-            // Autoplay (opcional)
-            let autoplayInterval = setInterval(nextSlide, 5000);
+            // Adiciona eventos aos indicadores
+            indicators.forEach((indicator, i) => {
+                indicator.addEventListener('click', () => goToSlide(i));
+            });
+
+            // Inicia o autoplay
+            function startAutoplay() {
+                autoplayInterval = setInterval(nextSlide, 5000);
+            }
 
             // Pausa o autoplay ao passar o mouse
             carouselContainer.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
-            carouselContainer.addEventListener('mouseleave', () => autoplayInterval = setInterval(nextSlide, 5000));
+            carouselContainer.addEventListener('mouseleave', startAutoplay);
+
+            // Inicia o autoplay pela primeira vez
+            startAutoplay();
         });
     </script>
 </body>
