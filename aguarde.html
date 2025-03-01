@@ -10,7 +10,6 @@
         html,
         body {
             height: 100%;
-            /* Garante que o html e o body ocupem 100% da altura da tela */
             margin: 0;
         }
 
@@ -18,18 +17,40 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            /* Garante que o contêiner principal ocupe pelo menos 100% da altura da tela */
         }
 
         main {
             flex: 1;
-            /* Faz o conteúdo principal ocupar o espaço restante */
         }
 
         footer {
             position: fixed;
             bottom: 0;
             width: 100%;
+        }
+
+        /* Animação da barra de progresso */
+        @keyframes progress {
+            0% {
+                width: 0%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background-color: #e2e8f0; /* Cor de fundo da barra */
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #01132b); /* Gradiente da barra */
+            animation: progress 2s ease-in-out infinite; /* Animação de 2 segundos */
         }
     </style>
 </head>
@@ -38,7 +59,7 @@
     <!-- Contêiner principal -->
     <div id="root">
         <!-- Cabeçalho -->
-        <header class="bg-gray-800 text-white text-center py-10">
+        <header class="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-10">
             <h1 class="text-2xl font-bold mb-6">Bem-vindo ao meu portfólio de Business Intelligence!</h1>
             <nav class="mt-8">
                 <ul class="flex flex-col sm:flex-row flex-wrap justify-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -67,10 +88,17 @@
         </header>
 
         <!-- Conteúdo Principal -->
-        <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow">
+        <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-lg">
             <div class="text-center">
                 <h1 class="text-4xl font-bold text-gray-800 mb-4">Aguarde!</h1>
-                <p class="text-xl text-gray-600">Estamos preparando uma nova e incrível experiência em dados para você!</p>
+                <p class="text-xl text-gray-600 mb-8">Estamos preparando uma nova e incrível experiência em dados para você!</p>
+                
+                <!-- Barra de Progresso -->
+                <div class="progress-bar mb-8">
+                    <div class="progress-bar-inner"></div>
+                </div>
+
+                <!-- Botão de Voltar -->
                 <a href="index.html"
                     class="mt-6 inline-block text-white bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
                     Voltar para o portfólio
@@ -79,7 +107,7 @@
         </main>
 
         <!-- Rodapé -->
-        <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
+        <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-4 mt-auto">
             <p>&copy; 2025 Jonathan Valeriano. Todos os direitos reservados.</p>
         </footer>
     </div>
