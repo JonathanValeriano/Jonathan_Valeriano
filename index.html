@@ -20,8 +20,8 @@
         /* Estilos personalizados para melhorar a responsividade */
         .nav-buttons {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Divide em 2 colunas */
-            gap: 0.5rem; /* Espaçamento entre os botões */
+            grid-template-columns: repeat(2, 1fr); /* Divide em 2 colunas no mobile */
+            gap: 0.75rem; /* Espaçamento entre os botões */
         }
 
         .nav-buttons a {
@@ -31,7 +31,22 @@
 
         @media (min-width: 640px) {
             .nav-buttons {
-                grid-template-columns: repeat(4, 1fr); /* 4 colunas no desktop */
+                grid-template-columns: repeat(4, auto); /* 4 colunas no desktop */
+                gap: 0.5rem; /* Espaçamento menor no desktop */
+            }
+        }
+
+        /* Estilos para os botões de contato */
+        .contact-buttons {
+            display: flex;
+            flex-direction: column; /* Coluna no mobile */
+            gap: 0.75rem; /* Espaçamento entre os botões */
+            align-items: center;
+        }
+
+        @media (min-width: 640px) {
+            .contact-buttons {
+                flex-direction: row; /* Linha no desktop */
                 gap: 1rem; /* Espaçamento maior no desktop */
             }
         }
@@ -148,7 +163,7 @@
         <p class="text-gray-700">Se você quiser entrar em contato, envie um e-mail para <a
                 href="mailto:jw.valeriano@hotmail.com"
                 class="text-blue-600 hover:text-blue-800">jw.valeriano@hotmail.com</a>.</p>
-        <div class="flex justify-center space-x-4 mt-4">
+        <div class="contact-buttons mt-4">
             <!-- Botão do LinkedIn -->
             <a href="https://www.linkedin.com/in/jonathan-valeriano-a328b6196?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
                 class="flex items-center justify-center space-x-2 bg-gray-600 text-white py-3 px-6 rounded-2xl hover:bg-gray-700 transition duration-300 shadow-lg"
