@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Vendas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        footer {
+            /* background: linear-gradient(to right, #1e3a8a, #111827); */
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .dashboard-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: calc(100vh - 4rem); /* Ajuste conforme o tamanho do cabeçalho */
+        }
+
+        .dashboard-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+    </style>
+</head>
+       <!-- Cabeçalho -->
+       <header class="bg-gray-800 text-white text-center py-10">
+        <h1 class="text-2xl font-bold mb-6">Bem-vindo ao meu portfólio de Business Intelligence!</h1>
+        <nav class="mt-8">
+            <ul class="flex flex-col sm:flex-row flex-wrap justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <li>
+                    <a href="index.html#Sobre" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        Sobre
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html#Artigos" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        Artigos
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html#dashboards" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        Dashboards
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html#contato" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                        Contato
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+<body class="bg-gray-100">
+    <!-- Contêiner principal -->
+    <div id="root">
+        <!-- Cabeçalho simplificado -->
+        <header class="bg-white text-gray-800 text-center py-4">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Dashboard de Vendas</h1>
+        </header>
+
+        <!-- Área principal do dashboard -->
+        <main>
+            <div class="dashboard-container">
+                <iframe 
+                    title="Dashboard_Vendas" 
+                    class="dashboard-iframe"
+                    src="https://app.powerbi.com/reportEmbed?reportId=485f63b9-650a-46f4-88d5-40807614d634&autoAuth=true&ctid=d55f6b89-e844-4c2b-b069-ef293ba546ff"
+                    frameborder="0" 
+                    allowFullScreen="true">
+                </iframe>
+            </div>
+        </main>
+
+        <!-- Rodapé simplificado -->
+        <footer class="bg-gray-800 text-white text-center py-1" lang="pt-BR">
+            <p>&copy; 2025 Jonathan Valeriano. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
