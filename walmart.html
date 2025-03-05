@@ -1,248 +1,248 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+    <!DOCTYPE html>
+    <html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cerveja e Fraldas: A História do Walmart</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        #root {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        main {
-            flex: 1;
-        }
-        .carousel-container {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .slide {
-            min-width: 100%;
-            box-sizing: border-box;
-            padding: 20px;
-            text-align: center;
-        }
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .carousel-indicators .indicator {
-            width: 10px;
-            height: 10px;
-            background-color: #ccc;
-            border-radius: 50%;
-            margin: 0 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .carousel-indicators .indicator.active {
-            background-color: #4a5568; /* Cor do indicador ativo */
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .nav-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Divide em 2 colunas no mobile */
-            gap: 0.75rem; /* Espaçamento entre os botões */
-        }
-    </style>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cerveja e Fraldas: A História do Walmart</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+            #root {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            main {
+                flex: 1;
+            }
+            .carousel-container {
+                display: flex;
+                transition: transform 0.5s ease-in-out;
+            }
+            .slide {
+                min-width: 100%;
+                box-sizing: border-box;
+                padding: 20px;
+                text-align: center;
+            }
+            .carousel-indicators {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
+            .carousel-indicators .indicator {
+                width: 10px;
+                height: 10px;
+                background-color: #ccc;
+                border-radius: 50%;
+                margin: 0 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            .carousel-indicators .indicator.active {
+                background-color: #4a5568; /* Cor do indicador ativo */
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .nav-buttons {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr); /* Divide em 2 colunas no mobile */
+                gap: 0.75rem; /* Espaçamento entre os botões */
+            }
+        </style>
+    </head>
 
-<body class="bg-gray-100">
-    <!-- Contêiner principal -->
-    <div id="root">
-        <!-- Cabeçalho -->
-        <header class="bg-gray-800 text-white text-center py-10">
-            <h1 class="text-2xl font-bold mb-6">Bem-vindo ao meu portfólio de Business Intelligence!</h1>
-            <nav class="mt-8">
-                <ul class="flex flex-col sm:flex-row flex-wrap justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <li>
-                        <a href="index.html#Sobre" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
-                            Sobre
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#Artigos" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
-                            Artigos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#dashboards" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
-                            Dashboards
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#contato" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
-                            Contato
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+    <body class="bg-gray-100">
+        <!-- Contêiner principal -->
+        <div id="root">
+            <!-- Cabeçalho -->
+            <header class="bg-gray-800 text-white text-center py-10">
+                <h1 class="text-2xl font-bold mb-6">Bem-vindo ao meu portfólio de Business Intelligence!</h1>
+                <nav class="mt-8">
+                    <ul class="flex flex-col sm:flex-row flex-wrap justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <li>
+                            <a href="index.html#Sobre" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                                Sobre
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#Artigos" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                                Artigos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#dashboards" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                                Dashboards
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#contato" class="text-white bg-gray-600 hover:bg-gray-700 rounded-2xl py-2 px-4 sm:py-3 sm:px-6 transition duration-300 shadow-lg text-sm sm:text-base">
+                                Contato
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
 
-        <!-- Conteúdo Principal -->
-        <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow">
-            <h1 class="text-4xl font-bold text-gray-800 mb-6 text-center">Cerveja e Fraldas: A História do Walmart</h1>
-            
-            <!-- Carrossel de Slides -->
-            <div class="relative w-full overflow-hidden">
-                <div class="carousel-container">
-                    <!-- Slide 1: O Contexto -->
-                    <div class="slide">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">O Contexto</h2>
-                        <p class="text-xl text-gray-700">
-                            Imagine uma época em que as lojas não sabiam muito sobre o que os clientes realmente queriam. Agora, pense no Walmart, uma gigante do varejo, que decidiu mergulhar de cabeça no mundo dos dados para descobrir segredos escondidos nas compras das pessoas. E foi assim que eles encontraram uma combinação tão inusitada quanto genial: cerveja e fraldas. Sim, você leu certo!
-                        </p>
-                        <img src="img/walmart/1.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+            <!-- Conteúdo Principal -->
+            <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow">
+                <h1 class="text-4xl font-bold text-gray-800 mb-6 text-center">Cerveja e Fraldas: A História do Walmart</h1>
+                
+                <!-- Carrossel de Slides -->
+                <div class="relative w-full overflow-hidden">
+                    <div class="carousel-container">
+                        <!-- Slide 1: O Contexto -->
+                        <div class="slide">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">O Contexto</h2>
+                            <p class="text-xl text-gray-700">
+                                Imagine uma época em que as lojas não sabiam muito sobre o que os clientes realmente queriam. Agora, pense no Walmart, uma gigante do varejo, que decidiu mergulhar de cabeça no mundo dos dados para descobrir segredos escondidos nas compras das pessoas. E foi assim que eles encontraram uma combinação tão inusitada quanto genial: cerveja e fraldas. Sim, você leu certo!
+                            </p>
+                            <img src="img/walmart/1.png" alt="Imagem 1" class="mt-4 w-full h-auto">
+                        </div>
+
+                        <!-- Slide 2: A Descoberta -->
+                        <div class="slide">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">A Descoberta</h2>
+                            <p class="text-xl text-gray-700">
+                                Essa história é um exemplo incrível de como a análise de dados pode revelar conexões surpreendentes e transformar a maneira como as empresas entendem seus clientes. E aí, curioso para saber como isso aconteceu? Então vem comigo que eu vou te contar!
+                            </p>
+                            <img src="img/walmart/2.png" alt="Imagem 2" class="mt-4 w-full h-auto">
+                        </div>
+
+                        <!-- Slide 3: A Explicação -->
+                        <div class="slide">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">A Explicação</h2>
+                            <p class="text-xl text-gray-700">
+                                Pais jovens compravam fraldas para os bebês e cervejas para o fim de semana, revelando uma ligação inesperada entre os dois produtos. Mas por que isso acontecia? A explicação está na rotina desses clientes: após um longo dia de trabalho, eles passavam no Walmart para comprar fraldas e, ao perceberem que estavam sem cerveja, aproveitavam para levar também.
+                            </p>
+                            <img src="img/walmart/3.png" alt="Imagem 3" class="mt-4 w-full h-auto">
+                        </div>
+
+                        <!-- Slide 4: A Transformação -->
+                        <div class="slide">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">A Transformação</h2>
+                            <p class="text-xl text-gray-700">
+                                Com base nesse insight, o Walmart decidiu reposicionar esses produtos nas lojas. Eles começaram a colocar fraldas e cervejas mais próximas uma da outra, especialmente nas noites de sexta-feira. Essa mudança estratégica teve um impacto significativo:
+                            </p>
+                            <img src="img/walmart/4.png" alt="Imagem 4" class="mt-4 w-full h-auto">
+                        </div>
+
+                        <!-- Slide 5: O Legado -->
+                        <div class="slide">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">O Legado</h2>
+                            <p class="text-xl text-gray-700">
+                                Essa descoberta não apenas beneficiou o Walmart, mas também se tornou um caso emblemático no mundo dos negócios, destacando a importância da análise de dados para identificar padrões ocultos e tomar decisões estratégicas. Além disso, popularizou o conceito de "análise de cesta de compras" (market basket analysis), uma técnica usada para entender as relações entre produtos comprados juntos.
+                            </p>
+                            <img src="img/walmart/5.png" alt="Imagem 5" class="mt-4 w-full h-auto">
+                        </div>
+
+                        <!-- Slide 6: Moral da história -->
+                        <div class="slide">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Moral da história: </h2>
+                            <p class="text-xl text-gray-700">
+                                Embora a análise de dados possa parecer complexa, os insights que ela proporcionam são extremamente valiosos e, por vezes, surpreendentemente curiosos. E você, já parou para pensar no que os dados podem revelar sobre o seu negócio? Quem sabe você não descobre a próxima combinação inusitada de cerveja e fraldas!
+                            </p>
+                            <img src="img/walmart/6.png" alt="Imagem 6" class="mt-4 w-full h-auto">
+                        </div>
                     </div>
 
-                    <!-- Slide 2: A Descoberta -->
-                    <div class="slide">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">A Descoberta</h2>
-                        <p class="text-xl text-gray-700">
-                            Essa história é um exemplo incrível de como a análise de dados pode revelar conexões surpreendentes e transformar a maneira como as empresas entendem seus clientes. E aí, curioso para saber como isso aconteceu? Então vem comigo que eu vou te contar!
-                        </p>
-                        <img src="img/walmart/2.png" alt="Imagem 2" class="mt-4 w-full h-auto">
-                    </div>
-
-                    <!-- Slide 3: A Explicação -->
-                    <div class="slide">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">A Explicação</h2>
-                        <p class="text-xl text-gray-700">
-                            Pais jovens compravam fraldas para os bebês e cervejas para o fim de semana, revelando uma ligação inesperada entre os dois produtos. Mas por que isso acontecia? A explicação está na rotina desses clientes: após um longo dia de trabalho, eles passavam no Walmart para comprar fraldas e, ao perceberem que estavam sem cerveja, aproveitavam para levar também.
-                        </p>
-                        <img src="img/walmart/3.png" alt="Imagem 3" class="mt-4 w-full h-auto">
-                    </div>
-
-                    <!-- Slide 4: A Transformação -->
-                    <div class="slide">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">A Transformação</h2>
-                        <p class="text-xl text-gray-700">
-                            Com base nesse insight, o Walmart decidiu reposicionar esses produtos nas lojas. Eles começaram a colocar fraldas e cervejas mais próximas uma da outra, especialmente nas noites de sexta-feira. Essa mudança estratégica teve um impacto significativo:
-                        </p>
-                        <img src="img/walmart/4.png" alt="Imagem 4" class="mt-4 w-full h-auto">
-                    </div>
-
-                    <!-- Slide 5: O Legado -->
-                    <div class="slide">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">O Legado</h2>
-                        <p class="text-xl text-gray-700">
-                            Essa descoberta não apenas beneficiou o Walmart, mas também se tornou um caso emblemático no mundo dos negócios, destacando a importância da análise de dados para identificar padrões ocultos e tomar decisões estratégicas. Além disso, popularizou o conceito de "análise de cesta de compras" (market basket analysis), uma técnica usada para entender as relações entre produtos comprados juntos.
-                        </p>
-                        <img src="img/walmart/5.png" alt="Imagem 5" class="mt-4 w-full h-auto">
-                    </div>
-
-                    <!-- Slide 6: Moral da história -->
-                    <div class="slide">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Moral da história: </h2>
-                        <p class="text-xl text-gray-700">
-                            Embora a análise de dados possa parecer complexa, os insights que ela proporcionam são extremamente valiosos e, por vezes, surpreendentemente curiosos. E você, já parou para pensar no que os dados podem revelar sobre o seu negócio? Quem sabe você não descobre a próxima combinação inusitada de cerveja e fraldas!
-                        </p>
-                        <img src="img/walmart/6.png" alt="Imagem 6" class="mt-4 w-full h-auto">
-                    </div>
+                    <!-- Botões de Controle -->
+                    <button class="carousel-control prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10094;</button>
+                    <button class="carousel-control next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10095;</button>
                 </div>
 
-                <!-- Botões de Controle -->
-                <button class="carousel-control prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10094;</button>
-                <button class="carousel-control next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">&#10095;</button>
-            </div>
+                <!-- Indicadores de Slide -->
+                <div class="carousel-indicators">
+                    <div class="indicator active" data-slide="0"></div>
+                    <div class="indicator" data-slide="1"></div>
+                    <div class="indicator" data-slide="2"></div>
+                    <div class="indicator" data-slide="3"></div>
+                    <div class="indicator" data-slide="4"></div>
+                    <div class="indicator" data-slide="5"></div>
+                </div>
 
-            <!-- Indicadores de Slide -->
-            <div class="carousel-indicators">
-                <div class="indicator active" data-slide="0"></div>
-                <div class="indicator" data-slide="1"></div>
-                <div class="indicator" data-slide="2"></div>
-                <div class="indicator" data-slide="3"></div>
-                <div class="indicator" data-slide="4"></div>
-                <div class="indicator" data-slide="5"></div>
-            </div>
+                <!-- Botão para Voltar -->
+                <div class="text-center mt-8">
+                    <a href="index.html"
+                        class="mt-6 inline-block text-white bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                        Voltar para o portfólio
+                    </a>
+                </div>
+            </main>
 
-            <!-- Botão para Voltar -->
-            <div class="text-center mt-8">
-                <a href="index.html"
-                    class="mt-6 inline-block text-white bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
-                    Voltar para o portfólio
-                </a>
-            </div>
-        </main>
+            <!-- Rodapé -->
+            <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
+                <p>&copy; 2025 Jonathan Valeriano. Todos os direitos reservados.</p>
+            </footer>
+        </div>
 
-        <!-- Rodapé -->
-        <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
-            <p>&copy; 2025 Jonathan Valeriano. Todos os direitos reservados.</p>
-        </footer>
-    </div>
+        <!-- Script do Carrossel -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const carouselContainer = document.querySelector('.carousel-container');
+                const slides = document.querySelectorAll('.slide');
+                const indicators = document.querySelectorAll('.carousel-indicators .indicator');
+                const prevButton = document.querySelector('.prev');
+                const nextButton = document.querySelector('.next');
+                let index = 0;
+                let autoplayInterval;
 
-    <!-- Script do Carrossel -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const carouselContainer = document.querySelector('.carousel-container');
-            const slides = document.querySelectorAll('.slide');
-            const indicators = document.querySelectorAll('.carousel-indicators .indicator');
-            const prevButton = document.querySelector('.prev');
-            const nextButton = document.querySelector('.next');
-            let index = 0;
-            let autoplayInterval;
+                // Atualiza a posição do carrossel e os indicadores
+                function updateCarousel() {
+                    carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+                    indicators.forEach((indicator, i) => {
+                        indicator.classList.toggle('active', i === index);
+                    });
+                }
 
-            // Atualiza a posição do carrossel e os indicadores
-            function updateCarousel() {
-                carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+                // Navega para o próximo slide
+                function nextSlide() {
+                    index = (index + 1) % slides.length;
+                    updateCarousel();
+                }
+
+                // Navega para o slide anterior
+                function prevSlide() {
+                    index = (index - 1 + slides.length) % slides.length;
+                    updateCarousel();
+                }
+
+                // Navega para um slide específico
+                function goToSlide(slideIndex) {
+                    index = slideIndex;
+                    updateCarousel();
+                }
+
+                // Adiciona eventos aos botões
+                prevButton.addEventListener('click', prevSlide);
+                nextButton.addEventListener('click', nextSlide);
+
+                // Adiciona eventos aos indicadores
                 indicators.forEach((indicator, i) => {
-                    indicator.classList.toggle('active', i === index);
+                    indicator.addEventListener('click', () => goToSlide(i));
                 });
-            }
 
-            // Navega para o próximo slide
-            function nextSlide() {
-                index = (index + 1) % slides.length;
-                updateCarousel();
-            }
+                // Inicia o autoplay
+                function startAutoplay() {
+                    autoplayInterval = setInterval(nextSlide, 5000);
+                }
 
-            // Navega para o slide anterior
-            function prevSlide() {
-                index = (index - 1 + slides.length) % slides.length;
-                updateCarousel();
-            }
+                // Pausa o autoplay ao passar o mouse
+                carouselContainer.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+                carouselContainer.addEventListener('mouseleave', startAutoplay);
 
-            // Navega para um slide específico
-            function goToSlide(slideIndex) {
-                index = slideIndex;
-                updateCarousel();
-            }
-
-            // Adiciona eventos aos botões
-            prevButton.addEventListener('click', prevSlide);
-            nextButton.addEventListener('click', nextSlide);
-
-            // Adiciona eventos aos indicadores
-            indicators.forEach((indicator, i) => {
-                indicator.addEventListener('click', () => goToSlide(i));
+                // Inicia o autoplay pela primeira vez
+                startAutoplay();
             });
+        </script>
+    </body>
 
-            // Inicia o autoplay
-            function startAutoplay() {
-                autoplayInterval = setInterval(nextSlide, 5000);
-            }
-
-            // Pausa o autoplay ao passar o mouse
-            carouselContainer.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
-            carouselContainer.addEventListener('mouseleave', startAutoplay);
-
-            // Inicia o autoplay pela primeira vez
-            startAutoplay();
-        });
-    </script>
-</body>
-
-</html>
+    </html>

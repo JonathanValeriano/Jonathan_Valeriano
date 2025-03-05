@@ -48,22 +48,8 @@
             }
 
             .nav-buttons a {
-                padding: 0.5rem 1rem; /* Padding menor para botões no desktop */
-            }
-        }
-
-        /* Estilos para os botões de contato */
-        .contact-buttons {
-            display: flex;
-            flex-direction: column; /* Coluna no mobile */
-            gap: 0.75rem; /* Espaçamento entre os botões */
-            align-items: center;
-        }
-
-        @media (min-width: 640px) {
-            .contact-buttons {
-                flex-direction: row; /* Linha no desktop */
-                gap: 0.5rem; /* Espaçamento menor no desktop */
+                padding: 0.5rem 0.75rem; /* Padding menor para botões no desktop */
+                margin: 0 -1px; /* Remove o espaçamento entre os botões */
             }
         }
 
