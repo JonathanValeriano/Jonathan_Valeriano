@@ -1,330 +1,322 @@
 import os
-import re
 import sqlite3
 from datetime import datetime
 import pandas as pd
-import pdfplumber
-import ofxparse
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.ensemble import RandomForestClassifier
-import joblib
-import argparse
-from typing import List, Dict, Optional, Union
+import questionary  # Biblioteca para interfaces CLI amigáveis
+from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments
+import torch
+from sklearn.preprocessing import LabelEncoder
+import numpy as np
 
-def print_file_debug_info(file_path: str):
-    """Exibe informações do arquivo para debug"""
-    try:
-        with open(file_path, 'rb') as f:
-            print("\n=== Debug do Arquivo ===")
-            print(f"Primeiras 3 linhas do arquivo {file_path}:")
-            for _ in range(3):
-                line = f.readline().decode('utf-8', errors='replace').strip()
-                print(line.replace('\t', '|'))  # Mostra tabs como pipes para visualização
-            print("=======================\n")
-    except Exception as e:
-        print(f"Não foi possível ler o arquivo para debug: {str(e)}")
+# Configurações iniciais
+torch.manual_seed(42)
 
-class FinanceAnalyzer:
-    def __init__(self, db_path: str = 'finances.db', model_path: str = 'categorizer_model.joblib'):
+class FinanceManager:
+    def __init__(self, db_path='finances.db', model_path='bert_model'):
         self.db_path = db_path
         self.model_path = model_path
-        self.categories = [
-            "Alimentação", "Transporte", "Moradia",
-            "Lazer", "Saúde", "Educação", "Investimento", "Receita", "Outros"
-        ]
+        self.categories = self._load_categories()
+        self.label_encoder = LabelEncoder()
+        self.label_encoder.fit(self.categories)
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        
         self._init_db()
         self._load_model()
 
     def _init_db(self):
-        """Inicializa o banco de dados SQLite"""
+        """Inicializa o banco de dados"""
         with sqlite3.connect(self.db_path) as conn:
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS categories (
+                    id INTEGER PRIMARY KEY,
+                    name TEXT UNIQUE
+                )''')
             conn.execute('''
                 CREATE TABLE IF NOT EXISTS transactions (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    date TEXT NOT NULL,
-                    description TEXT NOT NULL,
-                    value REAL NOT NULL,
-                    category TEXT,
+                    id INTEGER PRIMARY KEY,
+                    date TEXT,
+                    description TEXT,
+                    value REAL,
+                    category_id INTEGER,
                     account TEXT,
-                    created_at TEXT DEFAULT CURRENT_TIMESTAMP
-                )
-            ''')
-            conn.execute('''
-                CREATE INDEX IF NOT EXISTS idx_transactions_date 
-                ON transactions(date)
-            ''')
-            conn.execute('''
-                CREATE INDEX IF NOT EXISTS idx_transactions_category 
-                ON transactions(category)
-            ''')
+                    FOREIGN KEY(category_id) REFERENCES categories(id)
+                )''')
+            
+            # Insere categorias padrão se não existirem
+            for cat in self.categories:
+                conn.execute('INSERT OR IGNORE INTO categories (name) VALUES (?)', (cat,))
+
+    def _load_categories(self) -> list:
+        """Carrega categorias do banco de dados"""
+        if not os.path.exists(self.db_path):
+            return ["Alimentação", "Transporte", "Moradia", "Lazer", "Saúde", "Educação", "Outros"]
+        
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute('SELECT name FROM categories')
+            return [row[0] for row in cursor.fetchall()] or ["Alimentação", "Transporte", "Moradia", "Lazer", "Saúde", "Educação", "Outros"]
 
     def _load_model(self):
-        """Carrega ou inicializa o modelo de categorização"""
-        if os.path.exists(self.model_path):
-            data = joblib.load(self.model_path)
-            self.vectorizer = data['vectorizer']
-            self.model = data['model']
-        else:
-            self.vectorizer = TfidfVectorizer(max_features=1000)
-            self.model = RandomForestClassifier(n_estimators=100)
-            self._train_with_examples()
-
-    def _train_with_examples(self):
-        """Treina o modelo com exemplos básicos"""
-        examples = [
-            ("SUPERMERCADO ABC", "Alimentação"),
-            ("POSTO IPIRANGA", "Transporte"),
-            ("ALUGUEL APTO", "Moradia"),
-            ("CINEMA", "Lazer"),
-            ("HOSPITAL", "Saúde"),
-            ("FACULDADE", "Educação"),
-            ("APLICAÇÃO RDB", "Investimento"),
-            ("TRANSFERÊNCIA RECEBIDA", "Receita"),
-            ("DONATIVO", "Outros")
-        ]
-        descriptions = [ex[0] for ex in examples]
-        labels = [self.categories.index(ex[1]) for ex in examples]
-        
-        X = self.vectorizer.fit_transform(descriptions)
-        self.model.fit(X, labels)
-        self._save_model()
-
-    def _save_model(self):
-        """Salva o modelo atual"""
-        joblib.dump({
-            'vectorizer': self.vectorizer,
-            'model': self.model,
-            'categories': self.categories
-        }, self.model_path)
-
-    def process_file(self, file_path: str, account_name: str) -> List[Dict]:
-        """Processa um arquivo de extrato (PDF, OFX ou CSV)"""
-        ext = os.path.splitext(file_path)[1].lower()
-        
-        if ext == '.csv':
-            print_file_debug_info(file_path)
-        
-        if ext == '.pdf':
-            transactions = self._parse_pdf(file_path)
-        elif ext == '.ofx':
-            transactions = self._parse_ofx(file_path)
-        elif ext == '.csv':
-            transactions = self._parse_csv(file_path)
-        else:
-            raise ValueError(f"Formato de arquivo não suportado: {ext}")
-        
-        categorized = []
-        for t in transactions:
-            t['category'] = self._categorize_transaction(t)
-            t['account'] = account_name
-            categorized.append(t)
-        
-        self._save_transactions(categorized)
-        return categorized
-
-    def _parse_pdf(self, file_path: str) -> List[Dict]:
-        """Extrai transações de um PDF"""
-        transactions = []
-        
-        with pdfplumber.open(file_path) as pdf:
-            for page in pdf.pages:
-                text = page.extract_text()
-                pattern = r"(\d{2}/\d{2})\s+(.*?)\s+([\d.,-]+)\s+([\d.,-]+)"
-                for match in re.finditer(pattern, text):
-                    date, description, value, balance = match.groups()
-                    value = float(value.replace('.', '').replace(',', '.'))
-                    
-                    transactions.append({
-                        'date': datetime.strptime(date, '%d/%m').strftime('%Y-%m-%d'),
-                        'description': description.strip(),
-                        'value': value
-                    })
-        
-        return transactions
-
-    def _parse_ofx(self, file_path: str) -> List[Dict]:
-        """Extrai transações de um arquivo OFX"""
-        with open(file_path) as f:
-            ofx = ofxparse.parse(f)
-        
-        transactions = []
-        for transaction in ofx.account.statement.transactions:
-            transactions.append({
-                'date': transaction.date.strftime('%Y-%m-%d'),
-                'description': transaction.payee,
-                'value': float(transaction.amount)
-            })
-        
-        return transactions
-
-    def _parse_csv(self, file_path: str) -> List[Dict]:
-        """Processa arquivos CSV com tratamento robusto"""
+        """Carrega o modelo BERT"""
         try:
-            # Tenta ler com diferentes encodings e separadores
-            for encoding in ['utf-8', 'latin1', 'utf-16']:
-                try:
-                    df = pd.read_csv(file_path, encoding=encoding, sep=None, engine='python', on_bad_lines='warn')
-                    break
-                except UnicodeDecodeError:
-                    continue
-            
-            # Normaliza nomes de colunas
-            df.columns = df.columns.str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8').str.lower().str.strip()
-            
-            # Mapeamento de colunas alternativas
-            col_mapping = {
-                'data': 'date',
-                'valor': 'value',
-                'descricao': 'description',
-                'descrição': 'description',
-                'historico': 'description',
-                'identificador': 'id',
-                'idtransacao': 'id'
-            }
-            
-            # Renomeia colunas
-            df = df.rename(columns={col: col_mapping[col] for col in col_mapping if col in df.columns})
-            
-            # Verifica colunas obrigatórias
-            if 'date' not in df.columns or 'value' not in df.columns or 'description' not in df.columns:
-                missing = [col for col in ['date', 'value', 'description'] if col not in df.columns]
-                raise ValueError(f"Colunas obrigatórias faltando: {missing}")
-            
-            transactions = []
-            date_formats = ['%d/%m/%Y', '%m/%d/%Y', '%Y-%m-%d', '%d-%m-%Y', '%Y/%m/%d']
-            
-            for _, row in df.iterrows():
-                try:
-                    # Processa data
-                    date_str = str(row['date']).strip()
-                    date_obj = None
-                    for fmt in date_formats:
-                        try:
-                            date_obj = datetime.strptime(date_str, fmt)
-                            break
-                        except ValueError:
-                            continue
-                    if not date_obj:
-                        raise ValueError(f"Formato de data não reconhecido: {date_str}")
-                    
-                    # Processa valor
-                    value_str = str(row['value']).replace('R$', '').replace(' ', '').strip()
-                    value = float(value_str.replace('.', '').replace(',', '.'))
-                    
-                    # Descrição
-                    desc = str(row['description']).strip()
-                    if 'id' in df.columns:
-                        desc += f" ({row['id']})"
-                    
-                    transactions.append({
-                        'date': date_obj.strftime('%Y-%m-%d'),
-                        'description': desc,
-                        'value': value
-                    })
-                except Exception as e:
-                    print(f"Erro ao processar linha: {row.to_dict()} - Erro: {str(e)}")
-                    continue
-            
-            return transactions
+            self.tokenizer = BertTokenizer.from_pretrained(self.model_path)
+            self.model = BertForSequenceClassification.from_pretrained(self.model_path).to(self.device)
+        except:
+            self.tokenizer = BertTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
+            self.model = BertForSequenceClassification.from_pretrained(
+                'neuralmind/bert-base-portuguese-cased',
+                num_labels=len(self.categories)
+            self.model.to(self.device)
+
+    def show_menu(self):
+        """Exibe o menu principal"""
+        while True:
+            action = questionary.select(
+                "O que você deseja fazer?",
+                choices=[
+                    {"name": "Analisar novo extrato", "value": "analyze"},
+                    {"name": "Treinar modelo", "value": "train"},
+                    {"name": "Adicionar/Editar categorias", "value": "categories"},
+                    {"name": "Visualizar transações", "value": "view"},
+                    {"name": "Corrigir categorias", "value": "correct"},
+                    {"name": "Sair", "value": "exit"}
+                ]).ask()
+
+            if action == "analyze":
+                self.analyze_statement()
+            elif action == "train":
+                self.train_model()
+            elif action == "categories":
+                self.manage_categories()
+            elif action == "view":
+                self.view_transactions()
+            elif action == "correct":
+                self.correct_categories()
+            elif action == "exit":
+                break
+
+    def analyze_statement(self):
+        """Processa um novo extrato"""
+        file_path = questionary.path("Caminho do arquivo (PDF/CSV/OFX):").ask()
+        account = questionary.text("Nome da conta:").ask()
         
-        except Exception as e:
-            print(f"\nERRO CRÍTICO ao processar CSV: {str(e)}")
-            print("\nDicas para correção:")
-            print("1. Verifique o encoding do arquivo (salve como UTF-8)")
-            print("2. Confira os nomes das colunas na primeira linha")
-            print("3. Verifique o separador utilizado (vírgula, ponto-e-vírgula ou tab)")
-            print("\nExemplo de formato esperado:")
-            print("Data|Valor|Descrição|Identificador")
-            print("02/03/2025|100.50|Supermercado|123456")
-            return []
+        if not os.path.exists(file_path):
+            print("Arquivo não encontrado!")
+            return
+        
+        ext = os.path.splitext(file_path)[1].lower()
+        if ext not in ['.pdf', '.csv', '.ofx']:
+            print("Formato não suportado!")
+            return
+        
+        transactions = self._parse_file(file_path)
+        if not transactions:
+            print("Nenhuma transação encontrada!")
+            return
+        
+        print(f"\n{len(transactions)} transações encontradas:")
+        for t in transactions[:5]:
+            print(f"{t['date']} | {t['description'][:30]:<30} | R$ {t['value']:>9.2f}")
 
-    def _categorize_transaction(self, transaction: Dict) -> str:
-        """Categoriza uma transação usando o modelo"""
-        text = transaction['description']
-        X = self.vectorizer.transform([text])
-        pred = self.model.predict(X)
-        return self.categories[pred[0]]
-
-    def _save_transactions(self, transactions: List[Dict]):
-        """Salva transações no banco de dados"""
-        with sqlite3.connect(self.db_path) as conn:
+        if questionary.confirm("Processar estas transações?").ask():
+            categorized = []
             for t in transactions:
-                conn.execute('''
-                    INSERT INTO transactions (date, description, value, category, account)
-                    VALUES (?, ?, ?, ?, ?)
-                ''', (t['date'], t['description'], t['value'], t['category'], t['account']))
+                t['category'] = self._predict_category(t['description'])
+                t['account'] = account
+                categorized.append(t)
+            
+            self._save_transactions(categorized)
+            print(f"\n✅ {len(categorized)} transações salvas!")
 
-    def get_spending_by_category(self, start_date: Optional[str] = None, end_date: Optional[str] = None) -> pd.DataFrame:
-        """Retorna gastos por categoria em um período"""
-        query = '''
-            SELECT category, SUM(value) as total 
-            FROM transactions 
-            WHERE value < 0
-        '''
-        params = []
-        
-        if start_date:
-            query += ' AND date >= ?'
-            params.append(start_date)
-        if end_date:
-            query += ' AND date <= ?'
-            params.append(end_date)
-        
-        query += ' GROUP BY category ORDER BY total DESC'
-        
-        with sqlite3.connect(self.db_path) as conn:
-            df = pd.read_sql(query, conn, params=params if params else None)
-        
-        return df
-
-    def get_transactions(self, limit: int = 100) -> pd.DataFrame:
-        """Retorna as últimas transações"""
+    def train_model(self):
+        """Treina o modelo com dados existentes"""
         with sqlite3.connect(self.db_path) as conn:
             df = pd.read_sql('''
-                SELECT date, description, value, category, account 
-                FROM transactions 
-                ORDER BY date DESC 
+                SELECT t.description, c.name as category 
+                FROM transactions t
+                JOIN categories c ON t.category_id = c.id
+                WHERE c.name IS NOT NULL
+            ''', conn)
+        
+        if len(df) < 20:
+            print(f"⚠️  Necessário mínimo de 20 transações categorizadas (atualmente: {len(df)})")
+            print("Use a opção 'Corrigir categorias' primeiro")
+            return
+        
+        print(f"\nIniciando treinamento com {len(df)} exemplos...")
+        
+        # Prepara dados
+        texts = df['description'].tolist()
+        labels = self.label_encoder.transform(df['category'])
+        encodings = self.tokenizer(texts, truncation=True, padding=True, max_length=64)
+        
+        # Dataset PyTorch
+        class Dataset(torch.utils.data.Dataset):
+            def __init__(self, encodings, labels):
+                self.encodings = encodings
+                self.labels = labels
+            
+            def __getitem__(self, idx):
+                item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+                item['labels'] = torch.tensor(self.labels[idx])
+                return item
+            
+            def __len__(self):
+                return len(self.labels)
+        
+        dataset = Dataset(encodings, labels)
+        
+        # Configura treinamento
+        training_args = TrainingArguments(
+            output_dir='./results',
+            per_device_train_batch_size=8,
+            num_train_epochs=3,
+            save_strategy='no',
+            logging_dir='./logs',
+        )
+        
+        trainer = Trainer(
+            model=self.model,
+            args=training_args,
+            train_dataset=dataset,
+        )
+        
+        # Executa treinamento
+        trainer.train()
+        
+        # Salva modelo
+        self.model.save_pretrained(self.model_path)
+        self.tokenizer.save_pretrained(self.model_path)
+        print("\n✅ Modelo treinado e salvo com sucesso!")
+
+    def manage_categories(self):
+        """Gerencia categorias"""
+        while True:
+            action = questionary.select(
+                "Gerenciar categorias:",
+                choices=[
+                    {"name": "Listar categorias", "value": "list"},
+                    {"name": "Adicionar categoria", "value": "add"},
+                    {"name": "Remover categoria", "value": "remove"},
+                    {"name": "Voltar", "value": "back"}
+                ]).ask()
+            
+            if action == "list":
+                self._list_categories()
+            elif action == "add":
+                self._add_category()
+            elif action == "remove":
+                self._remove_category()
+            elif action == "back":
+                break
+
+    def _list_categories(self):
+        """Lista todas as categorias"""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute('SELECT id, name FROM categories')
+            categories = cursor.fetchall()
+        
+        print("\nCategorias disponíveis:")
+        for cat_id, name in categories:
+            count = conn.execute('SELECT COUNT(*) FROM transactions WHERE category_id = ?', (cat_id,)).fetchone()[0]
+            print(f"{cat_id}: {name} ({count} transações)")
+
+    def _add_category(self):
+        """Adiciona nova categoria"""
+        name = questionary.text("Nome da nova categoria:").ask()
+        if name:
+            with sqlite3.connect(self.db_path) as conn:
+                try:
+                    conn.execute('INSERT INTO categories (name) VALUES (?)', (name,))
+                    print(f"✅ Categoria '{name}' adicionada!")
+                    self.categories.append(name)
+                    self.label_encoder.fit(self.categories)
+                except sqlite3.IntegrityError:
+                    print("❌ Esta categoria já existe!")
+
+    def _remove_category(self):
+        """Remove categoria existente"""
+        with sqlite3.connect(self.db_path) as conn:
+            categories = conn.execute('SELECT id, name FROM categories').fetchall()
+        
+        if not categories:
+            print("Nenhuma categoria disponível!")
+            return
+        
+        choices = [{"name": name, "value": id} for id, name in categories]
+        cat_id = questionary.select("Selecione a categoria para remover:", choices).ask()
+        
+        if questionary.confirm("Tem certeza? As transações serão marcadas como sem categoria").ask():
+            with sqlite3.connect(self.db_path) as conn:
+                conn.execute('UPDATE transactions SET category_id = NULL WHERE category_id = ?', (cat_id,))
+                conn.execute('DELETE FROM categories WHERE id = ?', (cat_id,))
+                print("✅ Categoria removida!")
+                self.categories = self._load_categories()
+
+    def view_transactions(self):
+        """Visualiza transações"""
+        limit = questionary.text("Quantas transações exibir? (padrão: 50)", default="50").ask()
+        try:
+            limit = int(limit)
+        except:
+            limit = 50
+        
+        with sqlite3.connect(self.db_path) as conn:
+            df = pd.read_sql('''
+                SELECT t.date, t.description, t.value, c.name as category, t.account
+                FROM transactions t
+                LEFT JOIN categories c ON t.category_id = c.id
+                ORDER BY t.date DESC
                 LIMIT ?
             ''', conn, params=(limit,))
-        return df
+        
+        if df.empty:
+            print("Nenhuma transação encontrada!")
+            return
+        
+        print("\nÚltimas transações:")
+        print(df.to_string(index=False))
 
+    def correct_categories(self):
+        """Interface para correção manual de categorias"""
+        with sqlite3.connect(self.db_path) as conn:
+            uncategorized = conn.execute('''
+                SELECT t.id, t.date, t.description, t.value 
+                FROM transactions t
+                WHERE t.category_id IS NULL
+                LIMIT 100
+            ''').fetchall()
+            
+            if not uncategorized:
+                print("Nenhuma transação sem categoria!")
+                return
+            
+            categories = conn.execute('SELECT id, name FROM categories').fetchall()
+            if not categories:
+                print("Nenhuma categoria definida!")
+                return
+            
+            print("\nTransações sem categoria:")
+            for txn in uncategorized[:10]:
+                txn_id, date, desc, value = txn
+                print(f"\nID: {txn_id} | {date} | {desc[:50]} | R$ {value:.2f}")
+                
+                choices = [{"name": cat, "value": id} for id, cat in categories]
+                choices.append({"name": "Pular", "value": None})
+                
+                cat_id = questionary.select(
+                    "Selecione a categoria:",
+                    choices=choices
+                ).ask()
+                
+                if cat_id:
+                    conn.execute('UPDATE transactions SET category_id = ? WHERE id = ?', (cat_id, txn_id))
+                    print("✅ Categoria atualizada!")
+            
+            print("\nCorreção concluída!")
 
-def main():
-    parser = argparse.ArgumentParser(description='Analisador de Extratos Bancários')
-    parser.add_argument('file', nargs='?', help='Caminho do arquivo de extrato (PDF, OFX ou CSV)')  # Adicione nargs='?'
-    parser.add_argument('--account', help='Nome da conta/correntista')  # Remova required=True
-    parser.add_argument('--train', action='store_true', help='Treinar modelo com dados existentes')
-    args = parser.parse_args()
-
-    analyzer = FinanceAnalyzer()
-
-    if args.train:
-        print("Treinando modelo com transações existentes...")
-        with sqlite3.connect(analyzer.db_path) as conn:
-            df = pd.read_sql('SELECT description, category FROM transactions WHERE category IS NOT NULL', conn)
-
-        if not df.empty:
-            analyzer.vectorizer = TfidfVectorizer(max_features=1000)
-            X = analyzer.vectorizer.fit_transform(df['description'])
-            y = [analyzer.categories.index(cat) for cat in df['category']]
-            analyzer.model.fit(X, y)
-            analyzer._save_model()
-            print(f"Modelo treinado com {len(df)} exemplos e salvo em {analyzer.model_path}")
-        else:
-            print("Nenhuma transação categorizada encontrada para treinamento.")
-    elif args.file and args.account:
-        print(f"Processando arquivo: {args.file}")
-        transactions = analyzer.process_file(args.file, args.account)
-
-        print(f"\n{len(transactions)} transações processadas e categorizadas:")
-        for t in transactions[:5]:
-            print(f"{t['date']} | {t['description'][:50]:<50} | {t['value']:>10.2f} | {t['category']}")
-
-        print("\nResumo por Categoria:")
-        summary = analyzer.get_spending_by_category()
-        print(summary.to_string(index=False) if not summary.empty else "Nenhuma transação para exibir")
-    else:
-        parser.print_help()
+    # ... (métodos auxiliares _parse_file, _predict_category, _save_transactions)
 
 if __name__ == '__main__':
-    main()
+    print("\n💼 FinancIA - Gestão Financeira Inteligente\n")
+    manager = FinanceManager()
+    manager.show_menu()
