@@ -1,0 +1,3 @@
+2025-04-03 16:58:27,036 - __main__ - WARNING - Modelo local não encontrado, carregando base: bert_model is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-04-03 16:58:28,910 - __main__ - INFO - Modelo BERT base carregado
